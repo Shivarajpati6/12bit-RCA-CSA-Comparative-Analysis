@@ -1,0 +1,18 @@
+ module tb;
+ reg [11:0] a, b;
+ reg cin;
+ wire [11:0] s;
+ wire carry;
+ rca UUT (a, b, cin, s, carry);
+ initial
+ begin
+ 	a = 12'b100101011011; b = 12'b100100100101; cin = 0;
+	#10;
+	a = 12'b011011011101; b = 12'b011011101100; cin = 1;
+	#10;
+	a = 12'001000101100; b = 12'b000110010001; cin = 0;
+	#10;
+	a = 12'b010001000110; b = 12'b011001110110; cin = 1;
+	#10;
+ end
+ endmodule

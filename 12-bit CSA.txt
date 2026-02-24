@@ -1,0 +1,69 @@
+ module fa (a, b, cin, s, carry);
+ input a, b;
+ input cin;
+ output s, carry;
+ assign s=a ^ b ^ cin;
+ assign carry = (a & b) | (b & cin) | (cin & a);
+ endmodule
+
+ module mux(a, b, s, y);input a, b, s;
+ output y;
+ assign y=s?a:b;
+ endmodule
+
+ module csa(a,b,cin,s,carry);
+ input [11:0] a,b;
+ input cin;
+ output [11:0] s;
+ output carry;
+ wire c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,s1,s2,s3,
+ s4,s5,s6,s7,s8,s9,s11,s12,s13,s14,s15,s16;
+ 
+ fa fa1(a[0],b[0],cin,s[0],c1);
+ fa fa2(a[1],b[1],c1,s[1],c2);
+ fa fa3(a[2],b[2],c2,s[2],c3);
+ fa fa4(a[3],b[3],c3,s[3],c4);
+ 
+ fa fa5(a[4],b[4],1'b1,s1,c5);
+ fa fa6(a[4],b[4],1'b0,s2,c6);
+ mux m1(s1,s2,c4,s[4]);
+ 
+ fa fa7(a[5],b[5],c5,s3,c7);
+ fa fa8(a[5],b[5],c6,s4,c8);
+ mux m2(s3,s4,c4,s[5]);
+ 
+ fa fa9(a[6],b[6],c7,s5,c9);
+ fa fa10(a[6],b[6],c8,s6,c10);
+ mux m3(s5,s6,c4,s[6]);
+ 
+ fa fa11(a[7],b[7],c9,s7,c11);
+ fa fa12(a[7],b[7],c10,s8,c12);
+ mux m4(s7,s8,c4,s[7]);
+ 
+ mux m5(c11,c12,c4,c13);
+ 
+ fa fa13(a[8],b[8],1'b1,s9,c14);
+ fa fa14(a[8],b[8],1'b0,s10,c15);
+ mux m6(s9,s10,c13,s[8]);
+ 
+ fa fa15(a[9],b[9],c14,s11,c16);
+ fa fa16(a[9],b[9],c15,s12,c17);
+ mux m7(s11,s12,c13,s[9]);
+ 
+ mux m6(s9,s10,c3,s[8]);
+ 
+ fa fa15(a[9],b[9],c14,s11,c16);
+ fa fa16(a[9],b[9],c15,s12,c17);
+ mux m7(s11,s12,c13,s[9]);
+ 
+ fa fa17(a[10],b[10],c16,s13,c18);
+ fa fa18(a[10],b[10],c17,s14,c19);
+ mux m8(s13,s14,c3,s[10]);
+  
+ fa fa19(a[11],b[11],c18,s15,c20);
+ fa fa20(a[11],b[11],c19,s16,c21);
+ mux m9(s15,s16,c3,s[11]);
+ 
+ mux m10(c20,c21,c13,carry);
+  
+ endmodule
